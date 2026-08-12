@@ -1,0 +1,58 @@
+{
+  "dataset": "reproducibly generated synthetic events",
+  "grain": "one row per search session in funnel_session_mart",
+  "as_of_timestamp": "2026-08-11T12:00:00",
+  "row_counts": {
+    "events": 124066,
+    "session_attributes": 108626,
+    "funnel_sessions": 108626,
+    "release_rows": 3
+  },
+  "checks": {
+    "event_id_uniqueness": {
+      "passed": true,
+      "value": 0,
+      "rule": "0 duplicate event_id values"
+    },
+    "session_key_uniqueness": {
+      "passed": true,
+      "value": 0,
+      "rule": "0 duplicate session_id values in the session dimension"
+    },
+    "required_attributes": {
+      "passed": true,
+      "value": 0,
+      "rule": "0 nulls in session-grain dimensions"
+    },
+    "event_order": {
+      "passed": true,
+      "value": 0,
+      "rule": "booking_created cannot precede search_results_viewed"
+    },
+    "join_coverage": {
+      "passed": true,
+      "value": 0,
+      "rule": "every session attribute row maps to exactly one funnel row"
+    },
+    "date_coverage": {
+      "passed": true,
+      "value": 0,
+      "rule": "no missing daily partitions in the analysis window"
+    },
+    "freshness": {
+      "passed": true,
+      "value": 20.57,
+      "rule": "latest ingestion is within 24 hours of the as-of timestamp"
+    },
+    "sql_event_grain": {
+      "passed": true,
+      "value": {
+        "duplicate_event_ids": 0,
+        "sessions_without_exactly_one_search": 0,
+        "sessions_with_multiple_bookings": 0
+      },
+      "rule": "SQL event-grain checks are all zero"
+    }
+  },
+  "all_passed": true
+}

@@ -1,0 +1,123 @@
+{
+  "window": {
+    "before": "2026-06-29 to 2026-07-19",
+    "after": "2026-07-20 to 2026-08-09",
+    "release_date": "2026-07-20",
+    "timezone": "UTC (synthetic event timestamps)"
+  },
+  "period_totals": {
+    "before": {
+      "search_sessions": 50154,
+      "bookings": 8070,
+      "conversion": 0.1609044144036368
+    },
+    "after": {
+      "search_sessions": 58472,
+      "bookings": 7370,
+      "conversion": 0.12604323436858667
+    }
+  },
+  "global_delta": -0.03486118003505012,
+  "decomposition": {
+    "mix_effect": -0.035909751761690395,
+    "rate_effect": 0.0010485717266402528,
+    "total_effect": -0.034861180035050135,
+    "reconciliation_error": 1.3877787807814457e-17,
+    "mix_share_of_absolute_delta": 1.0300784920529373
+  },
+  "local_release_slice": {
+    "definition": "Android × Moscow × paid_search; post slice is app_version 5.14.0",
+    "before_sessions": 2768,
+    "before_bookings": 449,
+    "after_514_sessions": 1855,
+    "after_514_bookings": 150,
+    "after_old_sessions": 736,
+    "after_old_bookings": 104,
+    "after_old_conversion": 0.14130434782608695,
+    "before_rate": 0.16221098265895953,
+    "after_rate": 0.08086253369272237,
+    "difference": -0.08134844896623716,
+    "ci_low": -0.09985564049035828,
+    "ci_high": -0.06284125744211605,
+    "z_score": -8.072793179204314,
+    "p_value": 6.870793646336767e-16,
+    "by_quality": [
+      {
+        "session_quality": "high",
+        "before_rate": 0.25857142857142856,
+        "after_rate": 0.17738359201773837,
+        "difference": -0.08118783655369019,
+        "ci_low": -0.1290935953073646,
+        "ci_high": -0.033282077800015776,
+        "z_score": -3.211076590745958,
+        "p_value": 0.001322386845773756
+      },
+      {
+        "session_quality": "standard",
+        "before_rate": 0.16415770609318997,
+        "after_rate": 0.08229426433915212,
+        "difference": -0.08186344175403786,
+        "ci_low": -0.10905863033047003,
+        "ci_high": -0.05466825317760568,
+        "z_score": -5.418300054219491,
+        "p_value": 6.016837710251992e-08
+      },
+      {
+        "session_quality": "low",
+        "before_rate": 0.05794947994056464,
+        "after_rate": 0.006644518272425249,
+        "difference": -0.05130496166813939,
+        "ci_low": -0.07011249545446406,
+        "ci_high": -0.032497427881814714,
+        "z_score": -5.066180464240182,
+        "p_value": 4.0587715507476885e-07
+      }
+    ]
+  },
+  "top_mix_contributors": [
+    {
+      "segment": "organic × high",
+      "mix_effect": -0.017577385861927704,
+      "rate_effect": 0.0006449830040898063,
+      "total_effect": -0.016932402857837897,
+      "before_share": 0.20018343502013797,
+      "after_share": 0.1313278150225749
+    },
+    {
+      "segment": "organic × standard",
+      "mix_effect": -0.012357571392025207,
+      "rate_effect": 0.0009782361080873363,
+      "total_effect": -0.011379335283937867,
+      "before_share": 0.2275591179168162,
+      "after_share": 0.14863524421945545
+    },
+    {
+      "segment": "paid_search × standard",
+      "mix_effect": -0.00842884447720791,
+      "rate_effect": -0.001348367609141998,
+      "total_effect": -0.009777212086349909,
+      "before_share": 0.12435698050005982,
+      "after_share": 0.07109385688876728
+    },
+    {
+      "segment": "paid_search × high",
+      "mix_effect": -0.006457214430340089,
+      "rate_effect": -0.0008965861307261922,
+      "total_effect": -0.007353800561066283,
+      "before_share": 0.06222833672289349,
+      "after_share": 0.03783007251333972
+    },
+    {
+      "segment": "referral × high",
+      "mix_effect": -0.0017561765910529673,
+      "rate_effect": 6.943373742495672e-05,
+      "total_effect": -0.001686742853628011,
+      "before_share": 0.03393547872552538,
+      "after_share": 0.02738062662470926
+    }
+  ],
+  "validation": {
+    "pandas_sql_conversion_max_abs_error": 0.0,
+    "decomposition_reconciles": true
+  }
+}
