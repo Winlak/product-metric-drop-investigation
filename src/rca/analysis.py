@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import json
+import math
+from html import escape
 from pathlib import Path
 from typing import Any
 
 import duckdb
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.stats import norm
@@ -346,76 +347,230 @@ def calculate_metrics(mart: pd.DataFrame, contribution: pd.DataFrame) -> dict[st
     }
 
 
-def make_figures(mart: pd.DataFrame, contribution: pd.DataFrame, metrics: dict[str, Any], figure_dir: Path) -> None:
-    """Render three audited static charts for the report and README."""
-    figure_dir.mkdir(parents=True, exist_ok=True)
-    plt.rcParams.update({"font.family": "DejaVu Sans", "axes.titleweight": "bold"})
+def _svg_number(value: float) -> str:
+    """Render an SVG coordinate at a stable, reviewable precision."""
+    return f"{float(value):.3f}".rstrip("0").rstrip(".")
 
+
+def _svg_text(
+    x: float,
+    y: float,
+    label: str,
+    *,
+    size: int = 13,
+    fill: str = PALETTE["ink"],
+    anchor: str = "start",
+    weight: str = "normal",
+) -> str:
+    """Create a text element without host-specific renderer metadata."""
+    return (
+        f'<text x="{_svg_number(x)}" y="{_svg_number(y)}" '
+        f'font-family="DejaVu Sans, Arial, sans-serif" font-size="{size}" '
+        f'fill="{fill}" text-anchor="{anchor}" font-weight="{weight}">{escape(label)}</text>'
+    )
+
+
+def _write_svg(path: Path, width: int, height: int, elements: list[str]) -> None:
+    """Write a text SVG deterministically; no raster renderer or timestamp is involved."""
+    document = "\n".join(
+        [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img">',
+            "  <title>Product analytics RCA chart</title>",
+            *[f"  {element}" for element in elements],
+            "</svg>",
+            "",
+        ]
+    )
+    path.write_text(document, encoding="utf-8")
+
+
+def _scale(value: float, domain_low: float, domain_high: float, range_low: float, range_high: float) -> float:
+    """Map a value into chart coordinates."""
+    return range_low + (value - domain_low) * (range_high - range_low) / (domain_high - domain_low)
+
+
+def _bar_rect(zero: float, endpoint: float, y: float, height: float, color: str) -> str:
+    """Render one horizontal contribution bar around a zero baseline."""
+    return (
+        f'<rect x="{_svg_number(min(zero, endpoint))}" y="{_svg_number(y)}" '
+        f'width="{_svg_number(abs(endpoint - zero))}" height="{_svg_number(height)}" fill="{color}"/>'
+    )
+
+
+def _daily_conversion_svg(mart: pd.DataFrame, destination: Path) -> None:
     daily = (
         mart.groupby("event_date", as_index=False)
         .agg(search_sessions=("session_id", "size"), bookings=("has_booking", "sum"))
         .assign(conversion=lambda frame: frame["bookings"] / frame["search_sessions"])
     )
-    fig, ax = plt.subplots(figsize=(10, 4.8))
-    ax.plot(daily["event_date"], daily["conversion"] * 100, color=PALETTE["blue"], linewidth=2.2)
-    ax.axvline(RELEASE_DATE, color=PALETTE["orange"], linestyle="--", linewidth=1.6, label="Release 5.14")
-    ax.set_title("Daily search-to-book conversion")
-    ax.set_ylabel("Conversion, %")
-    ax.set_xlabel("Search-session date (UTC)")
-    ax.yaxis.grid(True, color=PALETTE["grid"], alpha=0.7)
-    ax.legend(frameon=False, loc="lower left")
-    ax.spines[["top", "right"]].set_visible(False)
-    fig.tight_layout()
-    fig.savefig(figure_dir / "daily_conversion.png", dpi=180, bbox_inches="tight")
-    plt.close(fig)
+    width, height = 960, 440
+    left, right, top, bottom = 78, 32, 58, 76
+    plot_right, plot_bottom = width - right, height - bottom
+    values = (daily["conversion"] * 100).tolist()
+    y_low = float(math.floor(min(values) - 1))
+    y_high = float(math.ceil(max(values) + 1))
+    def y_position(value: float) -> float:
+        return _scale(value, y_low, y_high, plot_bottom, top)
 
+    def x_position(index: int) -> float:
+        return _scale(index, 0, len(daily) - 1, left, plot_right)
+    elements = [
+        f'<rect width="{width}" height="{height}" fill="white"/>',
+        _svg_text(left, 30, "Daily search-to-book conversion", size=18, weight="bold"),
+    ]
+    for tick_index in range(5):
+        value = y_low + (y_high - y_low) * tick_index / 4
+        y = y_position(value)
+        elements.extend(
+            [
+                f'<line x1="{left}" y1="{_svg_number(y)}" x2="{plot_right}" y2="{_svg_number(y)}" stroke="{PALETTE["grid"]}" stroke-width="1"/>',
+                _svg_text(left - 10, y + 4, f"{value:.1f}%", size=11, fill=PALETTE["grey"], anchor="end"),
+            ]
+        )
+    points = " ".join(
+        f"{_svg_number(x_position(index))},{_svg_number(y_position(value))}"
+        for index, value in enumerate(values)
+    )
+    release_index = next(
+        index for index, event_date in enumerate(daily["event_date"]) if event_date >= RELEASE_DATE
+    )
+    release_x = x_position(release_index)
+    elements.extend(
+        [
+            f'<polyline points="{points}" fill="none" stroke="{PALETTE["blue"]}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>',
+            f'<line x1="{_svg_number(release_x)}" y1="{top}" x2="{_svg_number(release_x)}" y2="{plot_bottom}" stroke="{PALETTE["orange"]}" stroke-width="2" stroke-dasharray="6 5"/>',
+            _svg_text(release_x + 8, top + 18, "Release 5.14", size=12, fill=PALETTE["orange"], weight="bold"),
+            f'<line x1="{left}" y1="{plot_bottom}" x2="{plot_right}" y2="{plot_bottom}" stroke="{PALETTE["ink"]}" stroke-width="1.2"/>',
+            _svg_text(18, (top + plot_bottom) / 2, "Conversion, %", size=12, fill=PALETTE["grey"]),
+        ]
+    )
+    for index in [0, release_index, len(daily) - 1]:
+        date_label = pd.Timestamp(daily.iloc[index]["event_date"]).strftime("%d %b")
+        elements.append(_svg_text(x_position(index), plot_bottom + 28, date_label, size=11, fill=PALETTE["grey"], anchor="middle"))
+    elements.append(_svg_text((left + plot_right) / 2, height - 22, "Search-session date (UTC)", size=12, fill=PALETTE["grey"], anchor="middle"))
+    _write_svg(destination, width, height, elements)
+
+
+def _contribution_svg(contribution: pd.DataFrame, destination: Path) -> None:
     display_contribution = contribution.assign(
         segment=lambda frame: frame["acquisition_channel"] + " × " + frame["session_quality"],
         mix_pp=lambda frame: frame["mix_effect"] * 100,
         rate_pp=lambda frame: frame["rate_effect"] * 100,
-    ).sort_values("mix_pp")
-    fig, ax = plt.subplots(figsize=(10, 5.4))
-    positions = np.arange(len(display_contribution))
-    ax.barh(positions - 0.18, display_contribution["mix_pp"], height=0.34, color=PALETTE["pink"], label="Mix effect")
-    ax.barh(positions + 0.18, display_contribution["rate_pp"], height=0.34, color=PALETTE["blue"], label="Within-cell rate effect")
-    ax.axvline(0, color=PALETTE["ink"], linewidth=0.9)
-    ax.set_yticks(positions, display_contribution["segment"])
-    ax.set_title("Contribution to the aggregate conversion change")
-    ax.set_xlabel("Contribution, percentage points")
-    ax.xaxis.grid(True, color=PALETTE["grid"], alpha=0.7)
-    ax.legend(frameon=False, loc="lower right")
-    ax.spines[["top", "right"]].set_visible(False)
-    fig.tight_layout()
-    fig.savefig(figure_dir / "mix_decomposition.png", dpi=180, bbox_inches="tight")
-    plt.close(fig)
+    ).sort_values("mix_pp", kind="mergesort")
+    width, height = 1000, 560
+    left, right, top, bottom = 240, 36, 66, 60
+    plot_right, plot_bottom = width - right, height - bottom
+    maximum = max(display_contribution[["mix_pp", "rate_pp"]].abs().max())
+    extent = math.ceil(float(maximum) * 2) / 2 + 0.5
+    def x_position(value: float) -> float:
+        return _scale(value, -extent, extent, left, plot_right)
 
+    zero = x_position(0)
+    row_height = (plot_bottom - top) / len(display_contribution)
+    elements = [
+        f'<rect width="{width}" height="{height}" fill="white"/>',
+        _svg_text(left, 30, "Contribution to the aggregate conversion change", size=18, weight="bold"),
+        f'<rect x="{left}" y="{top}" width="14" height="14" fill="{PALETTE["pink"]}"/>',
+        _svg_text(left + 20, top + 12, "Mix effect", size=12),
+        f'<rect x="{left + 130}" y="{top}" width="14" height="14" fill="{PALETTE["blue"]}"/>',
+        _svg_text(left + 150, top + 12, "Within-cell rate effect", size=12),
+    ]
+    for tick_index in range(5):
+        value = -extent + 2 * extent * tick_index / 4
+        x = x_position(value)
+        elements.extend(
+            [
+                f'<line x1="{_svg_number(x)}" y1="{top + 26}" x2="{_svg_number(x)}" y2="{plot_bottom}" stroke="{PALETTE["grid"]}" stroke-width="1"/>',
+                _svg_text(x, plot_bottom + 24, f"{value:.1f}", size=11, fill=PALETTE["grey"], anchor="middle"),
+            ]
+        )
+    elements.append(f'<line x1="{_svg_number(zero)}" y1="{top + 26}" x2="{_svg_number(zero)}" y2="{plot_bottom}" stroke="{PALETTE["ink"]}" stroke-width="1.4"/>')
+    for index, row in enumerate(display_contribution.to_dict("records")):
+        center = top + 26 + row_height * (index + 0.5)
+        elements.extend(
+            [
+                _svg_text(left - 12, center + 4, row["segment"], size=11, anchor="end"),
+                _bar_rect(zero, x_position(row["mix_pp"]), center - 13, 10, PALETTE["pink"]),
+                _bar_rect(zero, x_position(row["rate_pp"]), center + 3, 10, PALETTE["blue"]),
+            ]
+        )
+    elements.append(_svg_text((left + plot_right) / 2, height - 15, "Contribution, percentage points", size=12, fill=PALETTE["grey"], anchor="middle"))
+    _write_svg(destination, width, height, elements)
+
+
+def _local_regression_svg(metrics: dict[str, Any], destination: Path) -> None:
     local = metrics["local_release_slice"]
     groups = [
-        ("Before\n(all versions)", local["before_bookings"], local["before_sessions"], PALETTE["blue_light"]),
-        ("After\n5.14.0", local["after_514_bookings"], local["after_514_sessions"], PALETTE["orange"]),
-        ("After\nold versions", local["after_old_bookings"], local["after_old_sessions"], PALETTE["grey"]),
+        ("Before / all versions", local["before_bookings"], local["before_sessions"], PALETTE["blue_light"]),
+        ("After / 5.14.0", local["after_514_bookings"], local["after_514_sessions"], PALETTE["orange"]),
+        ("After / old versions", local["after_old_bookings"], local["after_old_sessions"], PALETTE["grey"]),
     ]
-    rates = np.array([bookings / sessions for _, bookings, sessions, _ in groups])
-    errors = np.array([
-        [rate - _rate_ci(bookings, sessions)[0], _rate_ci(bookings, sessions)[1] - rate]
-        for rate, (_, bookings, sessions, _) in zip(rates, groups)
-    ]).T
-    fig, ax = plt.subplots(figsize=(8.6, 4.8))
-    ax.bar(
-        [item[0] for item in groups],
-        rates * 100,
-        yerr=errors * 100,
-        color=[item[3] for item in groups],
-        capsize=4,
-        width=0.58,
+    intervals = [_rate_ci(bookings, sessions) for _, bookings, sessions, _ in groups]
+    values = [bookings / sessions * 100 for _, bookings, sessions, _ in groups]
+    y_high = math.ceil(max(interval[1] * 100 for interval in intervals) * 1.2 / 5) * 5
+    width, height = 840, 460
+    left, right, top, bottom = 82, 34, 60, 100
+    plot_right, plot_bottom = width - right, height - bottom
+    def y_position(value: float) -> float:
+        return _scale(value, 0, y_high, plot_bottom, top)
+
+    elements = [
+        f'<rect width="{width}" height="{height}" fill="white"/>',
+        _svg_text(left, 30, "Focused Android–Moscow–paid-search slice", size=18, weight="bold"),
+    ]
+    for tick_index in range(5):
+        value = y_high * tick_index / 4
+        y = y_position(value)
+        elements.extend(
+            [
+                f'<line x1="{left}" y1="{_svg_number(y)}" x2="{plot_right}" y2="{_svg_number(y)}" stroke="{PALETTE["grid"]}" stroke-width="1"/>',
+                _svg_text(left - 10, y + 4, f"{value:.1f}%", size=11, fill=PALETTE["grey"], anchor="end"),
+            ]
+        )
+    spacing = (plot_right - left) / len(groups)
+    for index, ((label, _, _, color), value, interval) in enumerate(zip(groups, values, intervals)):
+        center = left + spacing * (index + 0.5)
+        bar_width = 100
+        y = y_position(value)
+        low_y = y_position(interval[0] * 100)
+        high_y = y_position(interval[1] * 100)
+        elements.extend(
+            [
+                f'<rect x="{_svg_number(center - bar_width / 2)}" y="{_svg_number(y)}" width="{bar_width}" height="{_svg_number(plot_bottom - y)}" fill="{color}"/>',
+                f'<line x1="{_svg_number(center)}" y1="{_svg_number(low_y)}" x2="{_svg_number(center)}" y2="{_svg_number(high_y)}" stroke="{PALETTE["ink"]}" stroke-width="2"/>',
+                f'<line x1="{_svg_number(center - 7)}" y1="{_svg_number(low_y)}" x2="{_svg_number(center + 7)}" y2="{_svg_number(low_y)}" stroke="{PALETTE["ink"]}" stroke-width="2"/>',
+                f'<line x1="{_svg_number(center - 7)}" y1="{_svg_number(high_y)}" x2="{_svg_number(center + 7)}" y2="{_svg_number(high_y)}" stroke="{PALETTE["ink"]}" stroke-width="2"/>',
+                _svg_text(center, plot_bottom + 27, label, size=11, fill=PALETTE["grey"], anchor="middle"),
+                _svg_text(center, y - 9, f"{value:.1f}%", size=12, weight="bold", anchor="middle"),
+            ]
+        )
+    elements.extend(
+        [
+            f'<line x1="{left}" y1="{plot_bottom}" x2="{plot_right}" y2="{plot_bottom}" stroke="{PALETTE["ink"]}" stroke-width="1.2"/>',
+            _svg_text(18, (top + plot_bottom) / 2, "Conversion, % (95% Wilson CI)", size=12, fill=PALETTE["grey"]),
+        ]
     )
-    ax.set_title("Focused Android–Moscow–paid-search slice")
-    ax.set_ylabel("Conversion, % (95% Wilson CI)")
-    ax.yaxis.grid(True, color=PALETTE["grid"], alpha=0.7)
-    ax.spines[["top", "right"]].set_visible(False)
-    fig.tight_layout()
-    fig.savefig(figure_dir / "local_regression.png", dpi=180, bbox_inches="tight")
-    plt.close(fig)
+    _write_svg(destination, width, height, elements)
+
+
+def make_figures(mart: pd.DataFrame, contribution: pd.DataFrame, metrics: dict[str, Any], figure_dir: Path) -> None:
+    """Render three deterministic SVG charts for the report and README."""
+    figure_dir.mkdir(parents=True, exist_ok=True)
+    _daily_conversion_svg(mart, figure_dir / "daily_conversion.svg")
+    _contribution_svg(contribution, figure_dir / "mix_decomposition.svg")
+    _local_regression_svg(metrics, figure_dir / "local_regression.svg")
+
+
+def _canonicalize_for_artifact(value: Any) -> Any:
+    """Round floating tails that vary at machine precision before persistence."""
+    if isinstance(value, (float, np.floating)):
+        return float(format(float(value), ".15g"))
+    if isinstance(value, dict):
+        return {key: _canonicalize_for_artifact(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_canonicalize_for_artifact(item) for item in value]
+    return value
 
 
 def run_analysis(data_dir: Path, output_dir: Path) -> dict[str, Any]:
@@ -441,10 +596,20 @@ def run_analysis(data_dir: Path, output_dir: Path) -> dict[str, Any]:
         "decomposition_reconciles": abs(metrics["decomposition"]["reconciliation_error"]) < 1e-12,
     }
     make_figures(mart, contribution, metrics, output_dir / "figures")
-    contribution.to_csv(output_dir / "tables" / "contribution_decomposition.csv", index=False)
-    _period_totals(mart).to_csv(output_dir / "tables" / "period_totals.csv", index=False)
+    contribution.to_csv(
+        output_dir / "tables" / "contribution_decomposition.csv",
+        index=False,
+        float_format="%.15g",
+    )
+    _period_totals(mart).to_csv(
+        output_dir / "tables" / "period_totals.csv",
+        index=False,
+        float_format="%.15g",
+    )
+    artifact_metrics = _canonicalize_for_artifact(metrics)
+    artifact_quality = _canonicalize_for_artifact(quality)
     with (output_dir / "metrics.json").open("w", encoding="utf-8") as output:
-        json.dump(metrics, output, ensure_ascii=False, indent=2)
+        json.dump(artifact_metrics, output, ensure_ascii=False, indent=2)
     with (output_dir / "quality_checks.json").open("w", encoding="utf-8") as output:
-        json.dump(quality, output, ensure_ascii=False, indent=2)
-    return {"metrics": metrics, "quality": quality}
+        json.dump(artifact_quality, output, ensure_ascii=False, indent=2)
+    return {"metrics": artifact_metrics, "quality": artifact_quality}

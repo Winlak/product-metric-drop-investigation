@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440" role="img">
+  <title>Product analytics RCA chart</title>
+  <rect width="960" height="440" fill="white"/>
+  <text x="78" y="30" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#1F2937" text-anchor="start" font-weight="bold">Daily search-to-book conversion</text>
+  <line x1="78" y1="364" x2="928" y2="364" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="68" y="368" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="normal">10.0%</text>
+  <line x1="78" y1="287.5" x2="928" y2="287.5" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="68" y="291.5" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="normal">12.0%</text>
+  <line x1="78" y1="211" x2="928" y2="211" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="68" y="215" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="normal">14.0%</text>
+  <line x1="78" y1="134.5" x2="928" y2="134.5" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="68" y="138.5" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="normal">16.0%</text>
+  <line x1="78" y1="58" x2="928" y2="58" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="68" y="62" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="normal">18.0%</text>
+  <polyline points="78,103.276 98.732,121.349 119.463,109.255 140.195,106.472 160.927,165.124 181.659,114.803 202.39,124.522 223.122,148.082 243.854,117.964 264.585,97.089 285.317,171.336 306.049,172.829 326.78,131.327 347.512,154.219 368.244,123.562 388.976,106.846 409.707,137.393 430.439,147.25 451.171,136.329 471.902,117.85 492.634,147.098 513.366,265.096 534.098,239.886 554.829,249.561 575.561,258.809 596.293,259.753 617.024,232.372 637.756,265.286 658.488,266.201 679.22,264.653 699.951,270.427 720.683,274.414 741.415,269.069 762.146,257.487 782.878,273.713 803.61,258.026 824.341,263.587 845.073,277.001 865.805,247.645 886.537,274.327 907.268,274.136 928,314.507" fill="none" stroke="#1666B0" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <line x1="513.366" y1="58" x2="513.366" y2="364" stroke="#D97706" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="521.366" y="76" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" fill="#D97706" text-anchor="start" font-weight="bold">Release 5.14</text>
+  <line x1="78" y1="364" x2="928" y2="364" stroke="#1F2937" stroke-width="1.2"/>
+  <text x="18" y="211" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="normal">Conversion, %</text>
+  <text x="78" y="392" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="normal">29 Jun</text>
+  <text x="513.366" y="392" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="normal">20 Jul</text>
+  <text x="928" y="392" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="normal">09 Aug</text>
+  <text x="503" y="418" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" fill="#6B7280" text-anchor="middle" font-weight="normal">Search-session date (UTC)</text>
+</svg>

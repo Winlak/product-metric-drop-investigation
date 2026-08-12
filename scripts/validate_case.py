@@ -35,9 +35,9 @@ def main() -> None:
     pandas_sql_error = float((pandas_conversion - sql_conversion).abs().max())
 
     required_figures = [
-        args.reports_dir / "figures" / "daily_conversion.png",
-        args.reports_dir / "figures" / "mix_decomposition.png",
-        args.reports_dir / "figures" / "local_regression.png",
+        args.reports_dir / "figures" / "daily_conversion.svg",
+        args.reports_dir / "figures" / "mix_decomposition.svg",
+        args.reports_dir / "figures" / "local_regression.svg",
     ]
     required_files = required_figures + [
         args.reports_dir / "analysis_report.md",

@@ -9,21 +9,21 @@
     "before": {
       "search_sessions": 50154,
       "bookings": 8070,
-      "conversion": 0.1609044144036368
+      "conversion": 0.160904414403637
     },
     "after": {
       "search_sessions": 58472,
       "bookings": 7370,
-      "conversion": 0.12604323436858667
+      "conversion": 0.126043234368587
     }
   },
-  "global_delta": -0.03486118003505012,
+  "global_delta": -0.0348611800350501,
   "decomposition": {
-    "mix_effect": -0.035909751761690395,
-    "rate_effect": 0.0010485717266402528,
-    "total_effect": -0.034861180035050135,
-    "reconciliation_error": 1.3877787807814457e-17,
-    "mix_share_of_absolute_delta": 1.0300784920529373
+    "mix_effect": -0.0359097517616904,
+    "rate_effect": 0.00104857172664025,
+    "total_effect": -0.0348611800350501,
+    "reconciliation_error": 1.38777878078145e-17,
+    "mix_share_of_absolute_delta": 1.03007849205294
   },
   "local_release_slice": {
     "definition": "Android × Moscow × paid_search; post slice is app_version 5.14.0",
@@ -33,87 +33,87 @@
     "after_514_bookings": 150,
     "after_old_sessions": 736,
     "after_old_bookings": 104,
-    "after_old_conversion": 0.14130434782608695,
-    "before_rate": 0.16221098265895953,
-    "after_rate": 0.08086253369272237,
-    "difference": -0.08134844896623716,
-    "ci_low": -0.09985564049035828,
-    "ci_high": -0.06284125744211605,
-    "z_score": -8.072793179204314,
-    "p_value": 6.870793646336767e-16,
+    "after_old_conversion": 0.141304347826087,
+    "before_rate": 0.16221098265896,
+    "after_rate": 0.0808625336927224,
+    "difference": -0.0813484489662372,
+    "ci_low": -0.0998556404903583,
+    "ci_high": -0.062841257442116,
+    "z_score": -8.07279317920431,
+    "p_value": 6.87079364633677e-16,
     "by_quality": [
       {
         "session_quality": "high",
-        "before_rate": 0.25857142857142856,
-        "after_rate": 0.17738359201773837,
-        "difference": -0.08118783655369019,
-        "ci_low": -0.1290935953073646,
-        "ci_high": -0.033282077800015776,
-        "z_score": -3.211076590745958,
-        "p_value": 0.001322386845773756
+        "before_rate": 0.258571428571429,
+        "after_rate": 0.177383592017738,
+        "difference": -0.0811878365536902,
+        "ci_low": -0.129093595307365,
+        "ci_high": -0.0332820778000158,
+        "z_score": -3.21107659074596,
+        "p_value": 0.00132238684577376
       },
       {
         "session_quality": "standard",
-        "before_rate": 0.16415770609318997,
-        "after_rate": 0.08229426433915212,
-        "difference": -0.08186344175403786,
-        "ci_low": -0.10905863033047003,
-        "ci_high": -0.05466825317760568,
-        "z_score": -5.418300054219491,
-        "p_value": 6.016837710251992e-08
+        "before_rate": 0.16415770609319,
+        "after_rate": 0.0822942643391521,
+        "difference": -0.0818634417540379,
+        "ci_low": -0.10905863033047,
+        "ci_high": -0.0546682531776057,
+        "z_score": -5.41830005421949,
+        "p_value": 6.01683771025199e-08
       },
       {
         "session_quality": "low",
-        "before_rate": 0.05794947994056464,
-        "after_rate": 0.006644518272425249,
-        "difference": -0.05130496166813939,
-        "ci_low": -0.07011249545446406,
-        "ci_high": -0.032497427881814714,
-        "z_score": -5.066180464240182,
-        "p_value": 4.0587715507476885e-07
+        "before_rate": 0.0579494799405646,
+        "after_rate": 0.00664451827242525,
+        "difference": -0.0513049616681394,
+        "ci_low": -0.0701124954544641,
+        "ci_high": -0.0324974278818147,
+        "z_score": -5.06618046424018,
+        "p_value": 4.05877155074769e-07
       }
     ]
   },
   "top_mix_contributors": [
     {
       "segment": "organic × high",
-      "mix_effect": -0.017577385861927704,
-      "rate_effect": 0.0006449830040898063,
-      "total_effect": -0.016932402857837897,
-      "before_share": 0.20018343502013797,
-      "after_share": 0.1313278150225749
+      "mix_effect": -0.0175773858619277,
+      "rate_effect": 0.000644983004089806,
+      "total_effect": -0.0169324028578379,
+      "before_share": 0.200183435020138,
+      "after_share": 0.131327815022575
     },
     {
       "segment": "organic × standard",
-      "mix_effect": -0.012357571392025207,
-      "rate_effect": 0.0009782361080873363,
-      "total_effect": -0.011379335283937867,
-      "before_share": 0.2275591179168162,
-      "after_share": 0.14863524421945545
+      "mix_effect": -0.0123575713920252,
+      "rate_effect": 0.000978236108087336,
+      "total_effect": -0.0113793352839379,
+      "before_share": 0.227559117916816,
+      "after_share": 0.148635244219455
     },
     {
       "segment": "paid_search × standard",
       "mix_effect": -0.00842884447720791,
-      "rate_effect": -0.001348367609141998,
-      "total_effect": -0.009777212086349909,
-      "before_share": 0.12435698050005982,
-      "after_share": 0.07109385688876728
+      "rate_effect": -0.001348367609142,
+      "total_effect": -0.00977721208634991,
+      "before_share": 0.12435698050006,
+      "after_share": 0.0710938568887673
     },
     {
       "segment": "paid_search × high",
-      "mix_effect": -0.006457214430340089,
-      "rate_effect": -0.0008965861307261922,
-      "total_effect": -0.007353800561066283,
-      "before_share": 0.06222833672289349,
-      "after_share": 0.03783007251333972
+      "mix_effect": -0.00645721443034009,
+      "rate_effect": -0.000896586130726192,
+      "total_effect": -0.00735380056106628,
+      "before_share": 0.0622283367228935,
+      "after_share": 0.0378300725133397
     },
     {
       "segment": "referral × high",
-      "mix_effect": -0.0017561765910529673,
-      "rate_effect": 6.943373742495672e-05,
-      "total_effect": -0.001686742853628011,
-      "before_share": 0.03393547872552538,
-      "after_share": 0.02738062662470926
+      "mix_effect": -0.00175617659105297,
+      "rate_effect": 6.94337374249567e-05,
+      "total_effect": -0.00168674285362801,
+      "before_share": 0.0339354787255254,
+      "after_share": 0.0273806266247093
     }
   ],
   "validation": {

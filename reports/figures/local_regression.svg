@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="460" viewBox="0 0 840 460" role="img">
+  <title>Product analytics RCA chart</title>
+  <rect width="840" height="460" fill="white"/>
+  <text x="82" y="30" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#1F2937" text-anchor="start" font-weight="bold">Focused Android–Moscow–paid-search slice</text>
+  <line x1="82" y1="360" x2="806" y2="360" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="72" y="364" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="normal">0.0%</text>
+  <line x1="82" y1="285" x2="806" y2="285" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="72" y="289" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="normal">6.2%</text>
+  <line x1="82" y1="210" x2="806" y2="210" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="72" y="214" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="normal">12.5%</text>
+  <line x1="82" y1="135" x2="806" y2="135" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="72" y="139" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="normal">18.8%</text>
+  <line x1="82" y1="60" x2="806" y2="60" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="72" y="64" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="normal">25.0%</text>
+  <rect x="152.667" y="165.347" width="100" height="194.653" fill="#93C5FD"/>
+  <line x1="202.667" y1="181.263" x2="202.667" y2="148.307" stroke="#1F2937" stroke-width="2"/>
+  <line x1="195.667" y1="181.263" x2="209.667" y2="181.263" stroke="#1F2937" stroke-width="2"/>
+  <line x1="195.667" y1="148.307" x2="209.667" y2="148.307" stroke="#1F2937" stroke-width="2"/>
+  <text x="202.667" y="387" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="normal">Before / all versions</text>
+  <text x="202.667" y="156.347" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" fill="#1F2937" text-anchor="middle" font-weight="bold">16.2%</text>
+  <rect x="394" y="262.965" width="100" height="97.035" fill="#D97706"/>
+  <line x1="444" y1="276.834" x2="444" y2="247.017" stroke="#1F2937" stroke-width="2"/>
+  <line x1="437" y1="276.834" x2="451" y2="276.834" stroke="#1F2937" stroke-width="2"/>
+  <line x1="437" y1="247.017" x2="451" y2="247.017" stroke="#1F2937" stroke-width="2"/>
+  <text x="444" y="387" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="normal">After / 5.14.0</text>
+  <text x="444" y="253.965" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" fill="#1F2937" text-anchor="middle" font-weight="bold">8.1%</text>
+  <rect x="635.333" y="190.435" width="100" height="169.565" fill="#6B7280"/>
+  <line x1="685.333" y1="218.403" x2="685.333" y2="157.997" stroke="#1F2937" stroke-width="2"/>
+  <line x1="678.333" y1="218.403" x2="692.333" y2="218.403" stroke="#1F2937" stroke-width="2"/>
+  <line x1="678.333" y1="157.997" x2="692.333" y2="157.997" stroke="#1F2937" stroke-width="2"/>
+  <text x="685.333" y="387" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="normal">After / old versions</text>
+  <text x="685.333" y="181.435" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" fill="#1F2937" text-anchor="middle" font-weight="bold">14.1%</text>
+  <line x1="82" y1="360" x2="806" y2="360" stroke="#1F2937" stroke-width="1.2"/>
+  <text x="18" y="210" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="normal">Conversion, % (95% Wilson CI)</text>
+</svg>

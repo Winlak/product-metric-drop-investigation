@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560" role="img">
+  <title>Product analytics RCA chart</title>
+  <rect width="1000" height="560" fill="white"/>
+  <text x="240" y="30" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#1F2937" text-anchor="start" font-weight="bold">Contribution to the aggregate conversion change</text>
+  <rect x="240" y="66" width="14" height="14" fill="#C2416C"/>
+  <text x="260" y="78" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" fill="#1F2937" text-anchor="start" font-weight="normal">Mix effect</text>
+  <rect x="370" y="66" width="14" height="14" fill="#1666B0"/>
+  <text x="390" y="78" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" fill="#1F2937" text-anchor="start" font-weight="normal">Within-cell rate effect</text>
+  <line x1="240" y1="92" x2="240" y2="500" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="240" y="524" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="normal">-2.5</text>
+  <line x1="421" y1="92" x2="421" y2="500" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="421" y="524" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="normal">-1.2</text>
+  <line x1="602" y1="92" x2="602" y2="500" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="602" y="524" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="normal">0.0</text>
+  <line x1="783" y1="92" x2="783" y2="500" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="783" y="524" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="normal">1.2</text>
+  <line x1="964" y1="92" x2="964" y2="500" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="964" y="524" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="normal">2.5</text>
+  <line x1="602" y1="92" x2="602" y2="500" stroke="#1F2937" stroke-width="1.4"/>
+  <text x="228" y="114.083" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#1F2937" text-anchor="end" font-weight="normal">organic × high</text>
+  <rect x="347.479" y="97.083" width="254.521" height="10" fill="#C2416C"/>
+  <rect x="602" y="113.083" width="9.339" height="10" fill="#1666B0"/>
+  <text x="228" y="150.25" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#1F2937" text-anchor="end" font-weight="normal">organic × standard</text>
+  <rect x="423.062" y="133.25" width="178.938" height="10" fill="#C2416C"/>
+  <rect x="602" y="149.25" width="14.165" height="10" fill="#1666B0"/>
+  <text x="228" y="186.417" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#1F2937" text-anchor="end" font-weight="normal">paid_search × standard</text>
+  <rect x="479.95" y="169.417" width="122.05" height="10" fill="#C2416C"/>
+  <rect x="582.476" y="185.417" width="19.524" height="10" fill="#1666B0"/>
+  <text x="228" y="222.583" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#1F2937" text-anchor="end" font-weight="normal">paid_search × high</text>
+  <rect x="508.5" y="205.583" width="93.5" height="10" fill="#C2416C"/>
+  <rect x="589.017" y="221.583" width="12.983" height="10" fill="#1666B0"/>
+  <text x="228" y="258.75" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#1F2937" text-anchor="end" font-weight="normal">referral × high</text>
+  <rect x="576.571" y="241.75" width="25.429" height="10" fill="#C2416C"/>
+  <rect x="602" y="257.75" width="1.005" height="10" fill="#1666B0"/>
+  <text x="228" y="294.917" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#1F2937" text-anchor="end" font-weight="normal">organic × low</text>
+  <rect x="579.111" y="277.917" width="22.889" height="10" fill="#C2416C"/>
+  <rect x="599.386" y="293.917" width="2.614" height="10" fill="#1666B0"/>
+  <text x="228" y="331.083" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#1F2937" text-anchor="end" font-weight="normal">referral × standard</text>
+  <rect x="581.723" y="314.083" width="20.277" height="10" fill="#C2416C"/>
+  <rect x="602" y="330.083" width="5.87" height="10" fill="#1666B0"/>
+  <text x="228" y="367.25" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#1F2937" text-anchor="end" font-weight="normal">paid_search × low</text>
+  <rect x="595.277" y="350.25" width="6.723" height="10" fill="#C2416C"/>
+  <rect x="594.268" y="366.25" width="7.732" height="10" fill="#1666B0"/>
+  <text x="228" y="403.417" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#1F2937" text-anchor="end" font-weight="normal">referral × low</text>
+  <rect x="599.116" y="386.417" width="2.884" height="10" fill="#C2416C"/>
+  <rect x="600.643" y="402.417" width="1.357" height="10" fill="#1666B0"/>
+  <text x="228" y="439.583" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#1F2937" text-anchor="end" font-weight="normal">paid_social × high</text>
+  <rect x="602" y="422.583" width="29.677" height="10" fill="#C2416C"/>
+  <rect x="594.891" y="438.583" width="7.109" height="10" fill="#1666B0"/>
+  <text x="228" y="475.75" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#1F2937" text-anchor="end" font-weight="normal">paid_social × low</text>
+  <rect x="602" y="458.75" width="87.744" height="10" fill="#C2416C"/>
+  <rect x="602" y="474.75" width="39.731" height="10" fill="#1666B0"/>
+  <text x="228" y="511.917" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" fill="#1F2937" text-anchor="end" font-weight="normal">paid_social × standard</text>
+  <rect x="602" y="494.917" width="89.816" height="10" fill="#C2416C"/>
+  <rect x="598.392" y="510.917" width="3.608" height="10" fill="#1666B0"/>
+  <text x="602" y="545" font-family="DejaVu Sans, Arial, sans-serif" font-size="12" fill="#6B7280" text-anchor="middle" font-weight="normal">Contribution, percentage points</text>
+</svg>

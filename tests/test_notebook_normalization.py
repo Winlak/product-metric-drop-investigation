@@ -17,6 +17,7 @@ def test_notebook_normalizer_removes_execution_timestamps_and_preserves_outputs(
     notebook = nbformat.read(SOURCE_NOTEBOOK, as_version=4)
     output_before = deepcopy(notebook.cells[4]["outputs"])
     notebook.metadata["execution"] = {"timestamp": "2026-08-12T00:00:00Z"}
+    notebook.metadata["language_info"]["version"] = "999.0.0-host-specific"
     notebook.cells[4]["metadata"]["execution"] = {
         "iopub.status.busy": "2026-08-12T00:00:00Z",
         "shell.execute_reply": "2026-08-12T00:00:01Z",
@@ -31,6 +32,7 @@ def test_notebook_normalizer_removes_execution_timestamps_and_preserves_outputs(
 
     normalized = nbformat.read(destination, as_version=4)
     assert "execution" not in normalized.metadata
+    assert "version" not in normalized.metadata["language_info"]
     assert "execution" not in normalized.cells[4]["metadata"]
     assert normalized.cells[4]["outputs"] == output_before
     subprocess.run(
@@ -58,5 +60,5 @@ def test_executed_notebook_uses_portable_links_for_saved_figures() -> None:
     assert "image/png" not in output_mime_types
     assert "from IPython.display import HTML, display" in notebook.cells[2]["source"]
     assert "Image(" not in notebook.cells[7]["source"]
-    assert any("../reports/figures/mix_decomposition.png" in html for html in html_outputs)
-    assert any("../reports/figures/local_regression.png" in html for html in html_outputs)
+    assert any("../reports/figures/mix_decomposition.svg" in html for html in html_outputs)
+    assert any("../reports/figures/local_regression.svg" in html for html in html_outputs)

@@ -18,6 +18,7 @@ VOLATILE_METADATA_KEYS = {
     "timestamp",
     "trusted",
 }
+VOLATILE_LANGUAGE_INFO_KEYS = {"version", "codemirror_mode", "file_extension", "mimetype", "pygments_lexer"}
 
 
 def _strip_volatile_metadata(metadata: dict[str, Any]) -> None:
@@ -29,6 +30,9 @@ def _strip_volatile_metadata(metadata: dict[str, Any]) -> None:
 def normalize_notebook(notebook: nbformat.NotebookNode) -> nbformat.NotebookNode:
     """Normalize metadata in-place without clearing cells, outputs, or execution counts."""
     _strip_volatile_metadata(notebook.metadata)
+    language_info = notebook.metadata.get("language_info", {})
+    for key in VOLATILE_LANGUAGE_INFO_KEYS:
+        language_info.pop(key, None)
     for cell in notebook.cells:
         _strip_volatile_metadata(cell.metadata)
         for output in cell.get("outputs", []):

@@ -102,7 +102,7 @@ flowchart TD
 
 ## Временная привязка: падение начинается около rollout
 
-![Дневная конверсия](figures/daily_conversion.png)
+![Дневная конверсия](figures/daily_conversion.svg)
 
 График показывает ежедневную session-weighted конверсию и дату начала rollout 20 июля. Временная близость делает релиз разумной гипотезой для проверки, но сама по себе **не доказывает причинность**: одновременно мог измениться канал, состав аудитории, спрос или доступность предложения.
 
@@ -114,7 +114,7 @@ flowchart TD
 
 Первое слагаемое — composition/mix effect, второе — within-cell rate effect. Эффекты суммируются до общего изменения с ошибкой {metrics['decomposition']['reconciliation_error']:.1e}.
 
-![Декомпозиция вклада](figures/mix_decomposition.png)
+![Декомпозиция вклада](figures/mix_decomposition.svg)
 
 | Сегмент | Mix effect | Within-cell effect | Доля сессий: before → after |
 |---|---:|---:|---:|
@@ -124,7 +124,7 @@ flowchart TD
 
 ## При этом локальный Android-срез требует немедленной проверки
 
-![Локальный срез](figures/local_regression.png)
+![Локальный срез](figures/local_regression.svg)
 
 Срез фиксирован по platform, city и channel; дополнительно проверен внутри pre-treatment прокси качества сессии. Падение присутствует во всех трёх quality-бакетах, что делает простую смену quality mix внутри этого узкого среза недостаточным объяснением.
 

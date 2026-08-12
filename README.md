@@ -4,7 +4,7 @@
 
 > Все данные здесь синтетические и воспроизводимо генерируются из кода. Это не данные Делимобиля и не данные какой-либо реальной компании. Лицензия кода и generated data — [MIT](LICENSE); внешние данные не используются.
 
-![Дневная динамика conversion](reports/figures/daily_conversion.png)
+![Дневная динамика conversion](reports/figures/daily_conversion.svg)
 
 ## Бизнес-вопрос
 
@@ -39,6 +39,8 @@ python -m venv .venv
 make check
 ```
 
+Для аудита чистоты артефактов (то же правило применяет CI) используйте `make check-determinism`: после полного pipeline не должно остаться ни diff tracked-файлов, ни новых неигнорируемых файлов. Исполненный notebook нормализуется, сохраняя outputs и удаляя runtime metadata; графики хранятся как детерминированные text-SVG, а не платформозависимые PNG.
+
 Последовательность вручную:
 
 ```bash
@@ -47,6 +49,7 @@ make check
 .venv/bin/python scripts/render_report.py --metrics reports/metrics.json --quality reports/quality_checks.json --output reports/analysis_report.md
 .venv/bin/python scripts/validate_case.py --data-dir data/generated --reports-dir reports
 .venv/bin/python -m jupyter nbconvert --execute --to notebook --inplace notebooks/conversion_drop_rca.ipynb --ExecutePreprocessor.timeout=180
+.venv/bin/python scripts/normalize_notebook.py --notebook notebooks/conversion_drop_rca.ipynb
 ```
 
 ## Метод
@@ -74,4 +77,3 @@ make check
 ## Для резюме
 
 «Провёл end-to-end RCA падения search-to-book conversion: спроектировал event-level synthetic data, проверил качество и grain, реализовал DuckDB SQL витрину и mix decomposition с оконными функциями, выявил Simpson-style mix shift и локальную post-release регрессию; оформил мониторинг, эксперимент и CI-воспроизводимость.»
-

@@ -20,6 +20,8 @@ def test_pipeline_reconciles_mix_and_keeps_local_regression(tmp_path: Path) -> N
     assert abs(metrics["decomposition"]["mix_effect"]) > abs(metrics["decomposition"]["rate_effect"])
     assert metrics["local_release_slice"]["difference"] < -0.04
     assert metrics["local_release_slice"]["ci_high"] < 0
-    for filename in ["daily_conversion.png", "mix_decomposition.png", "local_regression.png"]:
-        assert (reports_dir / "figures" / filename).stat().st_size > 0
-
+    for filename in ["daily_conversion.svg", "mix_decomposition.svg", "local_regression.svg"]:
+        figure = reports_dir / "figures" / filename
+        assert figure.stat().st_size > 0
+        assert "<svg" in figure.read_text(encoding="utf-8")
+        assert "<metadata" not in figure.read_text(encoding="utf-8")
