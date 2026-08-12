@@ -12,6 +12,7 @@
 ### Calculation Spot-Checks
 - Pandas vs DuckDB conversion: Verified — max absolute difference 0.0e+00.
 - Contribution reconciliation: Verified — residual 1.4e-17.
+- Headline fixture: Verified — global delta -3.49 pp; mix effect -3.59 pp.
 - Event grain / freshness / joins: Verified — 8 of 8 checks passed.
 - Leakage: Verified — session-attribute input has no outcome field; booking is inferred only from raw event rollup.
 

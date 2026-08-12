@@ -1,4 +1,4 @@
-.PHONY: install lint test data analysis report notebook validate check
+.PHONY: install lint test data analysis report notebook validate check check-determinism
 
 install:
 	python -m pip install -r requirements.lock
@@ -20,9 +20,13 @@ report: analysis
 
 notebook: data
 	python -m jupyter nbconvert --execute --to notebook --inplace notebooks/conversion_drop_rca.ipynb --ExecutePreprocessor.timeout=180
+	python scripts/normalize_notebook.py --notebook notebooks/conversion_drop_rca.ipynb
 
 validate: report
 	python scripts/validate_case.py --data-dir data/generated --reports-dir reports
 
 check: lint test validate notebook
 
+check-determinism: check
+	git diff --exit-code
+	test -z "$$(git ls-files --others --exclude-standard)"

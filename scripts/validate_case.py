@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -48,12 +49,19 @@ def main() -> None:
         "pandas_matches_sql": pandas_sql_error < 1e-12,
         "decomposition_reconciles": abs(metrics["decomposition"]["reconciliation_error"]) < 1e-12,
         "scenario_has_topline_drop": metrics["global_delta"] < -0.02,
+        "headline_global_delta_matches_fixture": math.isclose(
+            metrics["global_delta"], -0.03486118003505012, abs_tol=1e-12
+        ),
+        "headline_mix_effect_matches_fixture": math.isclose(
+            metrics["decomposition"]["mix_effect"], -0.035909751761690395, abs_tol=1e-12
+        ),
         "mix_is_larger_than_rate_effect": abs(metrics["decomposition"]["mix_effect"])
         > abs(metrics["decomposition"]["rate_effect"]),
         "local_slice_has_material_drop": metrics["local_release_slice"]["difference"] < -0.04,
         "no_outcome_leakage_in_attributes": "booked" not in attributes.columns,
         "reader_artifacts_exist": all(path.exists() and path.stat().st_size > 0 for path in required_files),
-        "causal_caveat_is_visible": "не доказывает причинность" in report_text,
+        "causal_caveat_is_visible": "не доказывает причинность" in report_text
+        and "не causal effect" in report_text,
         "source_is_labeled_synthetic": "синтетические" in report_text.lower(),
     }
     if not all(checks.values()):
@@ -74,6 +82,7 @@ def main() -> None:
 ### Calculation Spot-Checks
 - Pandas vs DuckDB conversion: Verified — max absolute difference {pandas_sql_error:.1e}.
 - Contribution reconciliation: Verified — residual {metrics['decomposition']['reconciliation_error']:.1e}.
+- Headline fixture: Verified — global delta {metrics['global_delta'] * 100:.2f} pp; mix effect {metrics['decomposition']['mix_effect'] * 100:.2f} pp.
 - Event grain / freshness / joins: Verified — {len(quality['checks'])} of {len(quality['checks'])} checks passed.
 - Leakage: Verified — session-attribute input has no outcome field; booking is inferred only from raw event rollup.
 
