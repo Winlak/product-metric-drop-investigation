@@ -68,31 +68,31 @@ def main() -> None:
         failed = [name for name, passed in checks.items() if not passed]
         raise SystemExit(f"Validation failed: {', '.join(failed)}")
 
-    validation_report = f"""# Validation Report
+    validation_report = f"""# Проверка результатов
 
 ### Результаты автоматических проверок
 
-### Methodology Review
+### Методика
 Вопрос — объяснить падение session-level search-to-book conversion после synthetic rollout. Окна имеют одинаковую длину; знаменатель — search-сессии, а не события. Сценарий и данные явно помечены как синтетические. Наблюдательная temporal связь отделена от causal claim.
 
-### Issues Found
-1. [Severity: Medium] Before/after не является экспериментом. В отчёте это ограничение видно рядом с локальным выводом; для causal решения предложен randomised holdback.
-2. [Severity: Low] Версия приложения появляется в post-period, поэтому version effect не полностью отделим от времени и rollout selection.
+### Ограничения дизайна
+1. Before/after не является экспериментом. В отчёте это ограничение видно рядом с локальным выводом; для causal решения предложен randomised holdback.
+2. Версия приложения появляется в post-period, поэтому version effect не полностью отделим от времени и rollout selection.
 
-### Calculation Spot-Checks
+### Контрольные пересчёты
 - Pandas vs DuckDB conversion: Verified — max absolute difference {pandas_sql_error:.1e}.
 - Contribution reconciliation: Verified — residual {metrics['decomposition']['reconciliation_error']:.1e}.
 - Headline fixture: Verified — global delta {metrics['global_delta'] * 100:.2f} pp; mix effect {metrics['decomposition']['mix_effect'] * 100:.2f} pp.
 - Event grain / freshness / joins: Verified — {len(quality['checks'])} of {len(quality['checks'])} checks passed.
 - Leakage: Verified — session-attribute input has no outcome field; booking is inferred only from raw event rollup.
 
-### Visualization Review
-Проверены три PNG: дневной тренд с датой релиза, contribution decomposition и локальный срез с 95% Wilson CI. У осевых сравнительных bar-chart есть нулевая линия/честная шкала, а допущения не спрятаны в заголовках.
+### Файлы графиков
+Проверено наличие трёх непустых SVG-файлов: дневного тренда, разложения изменения конверсии и локального среза с 95% Wilson CI. Автоматическая проверка файлов не подтверждает читаемость графиков или корректность их визуального оформления.
 
-### Suggested Improvements
+### Что проверить дальше
 1. В production добавить availability, pricing, latency и crash telemetry, затем провести pre-registered holdback.
 
-### Required Caveats for Stakeholders
+### Ограничения интерпретации
 - Synthetic scenario иллюстрирует метод, а не состояние реального бизнеса.
 - Статистическая разница в сегменте не доказывает эффект релиза без дизайна причинной идентификации.
 """
