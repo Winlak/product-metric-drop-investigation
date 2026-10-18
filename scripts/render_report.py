@@ -65,7 +65,7 @@ def render(metrics: dict, quality: dict) -> str:
     )
     return f"""# Расследование падения search-to-book conversion
 
-## Executive Summary
+## Краткие результаты
 
 - **Верхнеуровневая метрика действительно снизилась:** с {pct(before['conversion'])} ({before['bookings']:,} бронирований / {before['search_sessions']:,} search-сессий) до {pct(after['conversion'])} ({after['bookings']:,} / {after['search_sessions']:,}), то есть на {pp(metrics['global_delta'])}.
 - **Большая часть видимого падения — изменение состава трафика:** вклад mix равен {pp(decomposition['mix_effect'])}, или {pct(decomposition['mix_share_of_absolute_delta'])} абсолютного topline-изменения. После релиза резко выросла доля low-quality paid social; агрегат нельзя приписывать релизу без стандартизации.

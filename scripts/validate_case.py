@@ -70,7 +70,7 @@ def main() -> None:
 
     validation_report = f"""# Validation Report
 
-### Overall Assessment: Ready to share
+### Результаты автоматических проверок
 
 ### Methodology Review
 Вопрос — объяснить падение session-level search-to-book conversion после synthetic rollout. Окна имеют одинаковую длину; знаменатель — search-сессии, а не события. Сценарий и данные явно помечены как синтетические. Наблюдательная temporal связь отделена от causal claim.
