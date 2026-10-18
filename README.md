@@ -12,7 +12,7 @@
 
 Короткий ответ: **агрегат нельзя объяснять релизом напрямую**. Mix effect равен -3,59 п.п., а within-cell effect в сумме +0,10 п.п.; в то же время Android × Moscow × paid_search × 5.14.0 падает примерно на 8,13 п.п. от pre-period. Последнее — сильная гипотеза инцидента, но before/after не доказывает causal effect.
 
-Полный reader-facing отчёт: [reports/analysis_report.md](reports/analysis_report.md). Независимая финальная проверка: [reports/validation_report.md](reports/validation_report.md).
+Подробный отчёт: [reports/analysis_report.md](reports/analysis_report.md). Независимая финальная проверка: [reports/validation_report.md](reports/validation_report.md).
 
 ## Что внутри
 
@@ -73,7 +73,3 @@ make check
 - Кейс демонстрирует метод и не является исследованием реального рынка или продукта.
 - Параллельность во времени не равна причинности; version rollout не был случайным.
 - Для causal решения нужны holdback/experiment и production telemetry о цене, наличии, latency и ошибках.
-
-## Для резюме
-
-«Провёл end-to-end RCA падения search-to-book conversion: спроектировал event-level synthetic data, проверил качество и grain, реализовал DuckDB SQL витрину и mix decomposition с оконными функциями, выявил Simpson-style mix shift и локальную post-release регрессию; оформил мониторинг, эксперимент и CI-воспроизводимость.»
